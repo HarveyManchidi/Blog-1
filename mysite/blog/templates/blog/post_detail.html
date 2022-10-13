@@ -1,0 +1,44 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %} 
+
+{% block content %}
+
+    <div class="container-e shadow p-2 border-radius mt-2 bg-white border-b-post">
+        <div class="">
+            
+            <h2 class="">{{ post.author }}</h2>
+        </div>
+        <div class="flex border-left-5 bg-blue-200">  
+            <h1 class="ml-2">{{ post.title }}</h1> 
+            <p class="mr-2 mt-2 text-muted"> {{ post.created|timesince }} ago</p>
+        </div>
+        <p>{{ post.body }}</p>
+        {% if request.user == post.author %}
+        <a href="{% url 'post-update' post.pk %}" class="btn-Edit">Edit</a>
+        <a href="{% url 'post-delete' post.pk %}" class="btn-delete">Delete</a>
+    {% endif %}
+    </div>
+
+    <div class="container-e bg-white p-2">
+        <h4 class="mt-2">Comments</h4>
+        <form method="post" class="comment">
+            {% csrf_token %}
+            {{comment_form|crispy}}
+            <button class="btn-Edit">Post</button>
+        </form>
+        
+        <h3 class="mt-2 border-b-comment fsz-15">{{comments.count}} Comment{{comments|pluralize}}</h3>
+        <hr class="bg-gray-100 "/>
+        {% for comment in comments %}
+            <div class="border-left-5  bg-blue-200 ml-3 p-2 border-b-2">
+                <div style="display:flex;align-items:center;">
+                    <h4 class=" ml-2">{{comment.author}}</h4>
+                    <h5 class=" ml-2" style="font-size:15px;">{{ comment.created|timesince }} ago</h5>
+                </div>
+                <p class=" ml-2">{{comment.body}}</p>
+                
+            </div>
+        
+        {% endfor %}
+    </div>
+{% endblock content %}

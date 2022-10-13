@@ -1,0 +1,22 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %} 
+{% block content %}
+<div class=" container-e w-100" style="">
+    <div class="m-auto container-e form-center">
+        <form method="POST" class="form">
+        {% csrf_token %}
+        <div>
+            {{form|crispy}}
+        </div>
+        <button class="btn btn-success">Create</button>
+        </form>
+        <div class="circle-1"></div>
+        <div class="circle-2"></div>
+        <div class="circle-3"></div>
+        <div class="circle-4"></div>
+
+    </div>
+    
+</div>
+{% endblock content %}

@@ -1,0 +1,32 @@
+{% extends 'blog/base.html' %}
+
+
+{% block content %}
+<div class="container-e" style="display:flex;justify-content:end;">
+    <a href="{% url 'post-create' %}" class="btn-Edit">Add</a>
+</div>
+
+{% for post in posts %}
+    <div class="container-e shadow p-2 border-radius mt-2 bg-white">
+        
+        <div class="">
+            
+            <h2 class="">{{ post.author }}</h2>
+        </div>
+        <div class="flex border-left-5 bg-blue-200">  
+            <h3 class="ml-2">{{ post.title }}</h3> 
+            <p class="mr-2 mt-2 text-muted"> {{ post.created|timesince }} ago</p>
+        </div>
+        <p>{{ post.body }}</p>
+        <div class="mt-2 mb-2">
+            <a href="{{post.get_absolute_url}}" class="btn-view">view post</a>
+            {% if request.user == post.author %}
+                <a href="{% url 'post-update' post.pk %}" class="btn-Edit">Edit</a>
+                <a href="{% url 'post-delete' post.pk %}" class="btn-delete">Delete</a>
+            {% endif %}
+
+        </div>
+    </div>
+    
+{% endfor %}
+{% endblock content %}
